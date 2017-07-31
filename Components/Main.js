@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  StyleSheet
+  StyleSheet,
+  TextInput,
+  TouchableHighlight,
+  ActivityIndicatorIOS
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -32,7 +35,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 18,
-    color: '#fff',
     alignSelf: 'center'
   },
   button: {
@@ -50,10 +52,42 @@ const styles = StyleSheet.create({
 });
 
 class Main extends Component {
+  constructor() {
+    super();
+    this.state = {
+      username: '',
+      isLoading: false,
+      error: false
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({ username: event.nativeEvent.text });
+  }
+
+  handleSubmit() {
+    this.setState({ isLoading: true });
+    console.log('SUBMIT', this.state.username);
+  }
+
   render() {
     return (
       <View style={styles.mainContainer}>
-        <Text>Testing the Router</Text>
+        <Text style={styles.title}>Search for a Github User</Text>
+        <TextInput
+          style={styles.searchInput}
+          value={this.state.username}
+          onChange={this.handleChange}
+        />
+        <TouchableHighlight
+          style={styles.button}
+          onPress={this.handleSubmit}
+          underlayColor='white'>
+          <Text style={styles.buttonText}>SEARCH</Text>
+        </TouchableHighlight>
       </View>
     )
   }
