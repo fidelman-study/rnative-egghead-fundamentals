@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import api from '../Utils/api';
+import Dashboard from './Dashboard';
 
 import {
   View,
@@ -82,7 +83,7 @@ class Main extends Component {
         } else {
           this.props.navigator.push({
             title: res.name || "Select an Option",
-            component: Dasboard,
+            component: Dashboard,
             passProps: { userInfo: res }
           });
           this.setState({
