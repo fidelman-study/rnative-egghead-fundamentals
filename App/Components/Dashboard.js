@@ -9,6 +9,7 @@ import {
 
 import Profile from './Profile';
 import Repositories from './Repositories';
+import Notes from './Notes';
 import api from '../Utils/api';
 
 const styles = StyleSheet.create({
@@ -49,7 +50,6 @@ class Dashboard extends Component {
         if (res.message === 'Not Found') {
           console.error('Not found');
         } else {
-          console.log(res);
           this.props.navigator.push({
             title: "Repositories Page",
             component: Repositories,
@@ -63,7 +63,20 @@ class Dashboard extends Component {
   }
 
   goToNotes() {
+    api.getNotes(this.props.userInfo.login)
+      .then((res) => {
+        res = res || {};
+        console.log(res);
 
+        this.props.navigator.push({
+          title: "Notes Page",
+          component: Notes,
+          passProps: {
+            userInfo: this.props.userInfo,
+            notes: res
+          }
+        });
+      })
   }
 
   static makeBackground(btn) {
