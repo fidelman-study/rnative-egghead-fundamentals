@@ -8,6 +8,8 @@ import {
 } from 'react-native';
 
 import Profile from './Profile';
+import Repositories from './Repositories';
+import api from '../Utils/api';
 
 const styles = StyleSheet.create({
   container: {
@@ -42,7 +44,22 @@ class Dashboard extends Component {
   }
 
   goToRepos() {
-
+    api.getRepos(this.props.userInfo.login)
+      .then((res) => {
+        if (res.message === 'Not Found') {
+          console.error('Not found');
+        } else {
+          console.log(res);
+          this.props.navigator.push({
+            title: "Repositories Page",
+            component: Repositories,
+            passProps: {
+              userInfo: this.props.userInfo,
+              repos: res
+            }
+          });
+        }
+      })
   }
 
   goToNotes() {
